@@ -61,10 +61,8 @@ function Cake() {
       requestAnimationFrame(detectBlow);
     }
 
-    setTimeout(() => {
-      initBlowDetection();
-      setMicPermissionGranted(true);
-    }, 10000); //permission delay
+    initBlowDetection();
+    setMicPermissionGranted(true);
 
     return () => {
       if (audioContext) {
@@ -84,35 +82,53 @@ function Cake() {
             }}
           />
         )}
-        {candlesBlownOut && (
-          <motion.div
-            className="absolute top-20 text-white text-3xl font-bold z-50"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-          >
-            <svg width="800" height="200" viewBox="0 0 400 200">
-              <defs>
-                <path
-                  id="curve"
-                  d="M50,150 Q200,50 350,150"
-                  fill="transparent"
-                  stroke="white"
-                />
-              </defs>
-              <text fontSize="40" fill="white" textAnchor="middle">
-                <textPath href="#curve" startOffset="50%">
-                  Happy Birthday!
-                </textPath>
-              </text>
-            </svg>
-            <Link to="/present" className="flex justify-center items-center">
-              <p className="absolute top-[30rem] xs:top-[36rem] s:top-[40rem] px-7 py-3 bg-customBlue text-white rounded-full hover:bg-blue-600 font-medium text-base text-center ">
-                Next Page
-              </p>
-            </Link>
-          </motion.div>
-        )}
+        <motion.div
+          className="absolute inset-x-0 top-10 z-50 flex flex-col items-center gap-4 px-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: candlesBlownOut ? 1 : 0, y: candlesBlownOut ? 0 : 20 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+        >
+          {candlesBlownOut ? (
+            <>
+              <svg width="800" height="240" viewBox="0 0 400 240">
+                <defs>
+                  <path
+                    id="curve"
+                    d="M50,150 Q200,50 350,150"
+                    fill="transparent"
+                    stroke="white"
+                  />
+                  <path
+                    id="curve2"
+                    d="M50,180 Q200,100 350,180"
+                    fill="transparent"
+                    stroke="white"
+                  />
+                </defs>
+                <text fontSize="40" fill="white" textAnchor="middle">
+                  <textPath href="#curve" startOffset="50%">
+                    Happy Birthday!
+                  </textPath>
+                </text>
+                <text fontSize="30" fill="white" textAnchor="middle">
+                  <textPath href="#curve2" startOffset="50%">
+                    Angel
+                  </textPath>
+                </text>
+              </svg>
+              <Link to="/present">
+                <p className="px-7 py-3 bg-customBlue text-white rounded-full hover:bg-blue-600 font-medium text-base text-center">
+                  Next Page
+                </p>
+              </Link>
+            </>
+          ) : (
+            <div className="text-center text-white max-w-[90%]">
+              <p className="text-xl font-semibold mb-2">Tiup lilinnya untuk lanjut ke halaman berikutnya.</p>
+              <p className="text-sm opacity-80">Izinkan akses mikrofon jika diminta, lalu hembuskan cukup lama sampai lilin padam.</p>
+            </div>
+          )}
+        </motion.div>
         <div className="relative z-10">
           <div className="absolute -top-48 left-1/2 transform -translate-x-1/2">
             <div className="candle">
